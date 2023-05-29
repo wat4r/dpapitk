@@ -3,13 +3,16 @@
 [![GoDoc](https://pkg.go.dev/badge/github.com/wat4r/dpapitk)](https://pkg.go.dev/github.com/wat4r/dpapitk)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+
 ## Introduction
 DPAPI Toolkit is a DPAPI(Data Protection API) and DPAPI-NG(Data Protection API Next Generation) decryption toolkit based on Golang, providing APIs for offline data decryption on different operating systems. It supports decryption methods such as password, hash, and domain backup key.
 
+
 ## Install
 ```bash
-go get -u github.com/wat4r/dpapitk
+go get github.com/wat4r/dpapitk
 ```
+
 
 ## Usage and example
 ### Decrypt master key file
@@ -40,6 +43,7 @@ func main()  {
 }
 ```
 
+
 ### Decrypt DPAPI data blob
 ```go
 package main
@@ -56,17 +60,44 @@ func main()  {
 	
 	data, err := blob.DecryptWithMasterKey(blobData, masterKey, entropy)
 	if err != nil {
-        panic(err)
+		panic(err)
 	}
 	fmt.Printf("Data: %x\n", data)
 }
 ```
 
+
+### Decrypt CNG DPAPI data blob
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/wat4r/dpapitk/cngblob"
+)
+
+func main()  {
+	blobData := []byte{...}
+	masterKey := []byte{...}
+	entropy := nil
+	
+	data, err := cngblob.DecryptWithMasterKey(blobData, masterKey, entropy)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Data: %x\n", data)
+}
+```
+
+
 ## TODO
- - DPAPI-NG(CNG DPAPI) data blob decrypt
+ ✔️ ~~DPAPI-NG(CNG DPAPI) data blob decrypt~~
+
 
 ## License
 This project is licensed under the [Apache 2.0 license](LICENSE).
+
+
 
 ## Contact
 If you have any issues or feature requests, please contact us. PR is welcomed.
