@@ -13,7 +13,7 @@ func ModuleDecrypt(ciphertext []byte, key []byte, module string, mode string, iv
 	var err error
 	switch strings.ToUpper(module) {
 	case "AES":
-		plaintext, err = aesDecrypt(ciphertext, key, iv, mode)
+		plaintext, err = AesDecrypt(ciphertext, key, iv, mode)
 	case "3DES":
 		plaintext, err = tripleDesDecrypt(ciphertext, key, iv, mode)
 	}
@@ -23,7 +23,7 @@ func ModuleDecrypt(ciphertext []byte, key []byte, module string, mode string, iv
 	return plaintext
 }
 
-func aesDecrypt(ciphertext []byte, key []byte, iv []byte, mode string) ([]byte, error) {
+func AesDecrypt(ciphertext []byte, key []byte, iv []byte, mode string) ([]byte, error) {
 	plaintext := make([]byte, len(ciphertext))
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -45,6 +45,25 @@ func aesDecrypt(ciphertext []byte, key []byte, iv []byte, mode string) ([]byte, 
 	case "CFB":
 		m := cipher.NewCFBDecrypter(block, iv)
 		m.XORKeyStream(plaintext, ciphertext)
+	}
+
+	return plaintext, nil
+}
+
+func AesGcmDecrypt(key []byte, ciphertext []byte, nonce []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	aesGcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
+
+	plaintext, err := aesGcm.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		return nil, err
 	}
 
 	return plaintext, nil
