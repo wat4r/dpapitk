@@ -51,6 +51,7 @@ package main
 import (
 	"fmt"
 	"github.com/wat4r/dpapitk/blob"
+	"github.com/wat4r/dpapitk/utils"
 )
 
 func main()  {
@@ -58,7 +59,10 @@ func main()  {
 	masterKey := []byte{...}
 	entropy := nil
 	
-	data, err := blob.DecryptWithMasterKey(blobData, masterKey, entropy)
+	dataBlob := blob.ParseDataBlob(blobData)
+	fmt.Printf("GuidMasterKey: %s\n", utils.GuidMasterKeyConvert(dataBlob.GuidMasterKey))
+
+	data, err := dataBlob.DecryptWithMasterKey(masterKey, entropy)
 	if err != nil {
 		panic(err)
 	}

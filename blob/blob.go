@@ -11,13 +11,14 @@ import (
 	"github.com/wat4r/dpapitk/hashlib"
 )
 
-// DecryptWithMasterKey Decrypt dpapi blob data with master key.
-func DecryptWithMasterKey(blobData []byte, masterKey, entropy []byte) ([]byte, error) {
-	if len(blobData) < 60 {
-		return nil, errors.New("blobData failed")
-	}
+// Old version method, DecryptWithMasterKey Decrypt dpapi blob data with master key.
+func DecryptWithMasterKey(blobData, masterKey, entropy []byte) ([]byte, error) {
+	dataBlob := ParseDataBlob(blobData)
+	return dataBlob.DecryptWithMasterKey(masterKey, entropy)
+}
 
-	dataBlob := parseDataBlob(blobData)
+// DecryptWithMasterKey Decrypt dpapi blob data with master key.
+func (dataBlob *DataBlob) DecryptWithMasterKey(masterKey, entropy []byte) ([]byte, error) {
 	if len(dataBlob.Sign) == 0 {
 		return nil, errors.New("parsing blob failed")
 	}

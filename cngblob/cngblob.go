@@ -7,10 +7,10 @@ import (
 
 // DecryptWithMasterKey Decrypt CNG DPAPI blob data with master key.
 func DecryptWithMasterKey(blobData, masterKey, entropy []byte) ([]byte, error) {
-	var cngDataBlob CngDataBlob
-	cngDataBlob = parseCngDataBlob(blobData)
+	var cngDataBlob = parseCngDataBlob(blobData)
 
-	bigKEK, err := blob.DecryptWithMasterKey(cngDataBlob.DpapiBlob, masterKey, entropy)
+	dataBlob := blob.ParseDataBlob(cngDataBlob.DpapiBlob)
+	bigKEK, err := dataBlob.DecryptWithMasterKey(masterKey, entropy)
 	if err != nil {
 		return nil, err
 	}
