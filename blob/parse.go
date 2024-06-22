@@ -30,7 +30,7 @@ type DataBlob struct {
 	Sign             []byte
 }
 
-func parseDataBlob(blobData []byte) DataBlob {
+func ParseDataBlob(blobData []byte) DataBlob {
 	var dataBlob = DataBlob{}
 	reader := bytes.NewReader(blobData)
 

@@ -12,12 +12,7 @@ import (
 )
 
 // DecryptWithMasterKey Decrypt dpapi blob data with master key.
-func DecryptWithMasterKey(blobData []byte, masterKey, entropy []byte) ([]byte, error) {
-	if len(blobData) < 60 {
-		return nil, errors.New("blobData failed")
-	}
-
-	dataBlob := parseDataBlob(blobData)
+func (dataBlob *DataBlob) DecryptWithMasterKey(masterKey, entropy []byte) ([]byte, error) {
 	if len(dataBlob.Sign) == 0 {
 		return nil, errors.New("parsing blob failed")
 	}

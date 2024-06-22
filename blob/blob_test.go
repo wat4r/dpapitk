@@ -39,7 +39,8 @@ func TestDecryptWithMasterKey(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := DecryptWithMasterKey(tt.args.blobData, tt.args.masterKey, tt.args.entropy)
+			dataBlob := ParseDataBlob(tt.args.blobData)
+			got, err := dataBlob.DecryptWithMasterKey(tt.args.masterKey, tt.args.entropy)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DecryptWithMasterKey() error = %v, wantErr %v", err, tt.wantErr)
 				return
