@@ -11,6 +11,12 @@ import (
 	"github.com/wat4r/dpapitk/hashlib"
 )
 
+// Old version method, DecryptWithMasterKey Decrypt dpapi blob data with master key.
+func DecryptWithMasterKey(blobData, masterKey, entropy []byte) ([]byte, error) {
+	dataBlob := ParseDataBlob(blobData)
+	return dataBlob.DecryptWithMasterKey(masterKey, entropy)
+}
+
 // DecryptWithMasterKey Decrypt dpapi blob data with master key.
 func (dataBlob *DataBlob) DecryptWithMasterKey(masterKey, entropy []byte) ([]byte, error) {
 	if len(dataBlob.Sign) == 0 {
